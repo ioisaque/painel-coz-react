@@ -19,8 +19,8 @@ export default function CardPedido({ pedido, update }) {
   const [modal, setModal] = useState(false);
   
   let hasOBS = false;
-  
-  
+
+  // eslint-disable-next-line
   pedido.items.map(function(item) {
     if (item.observacoes)
      hasOBS = true;
@@ -38,7 +38,7 @@ export default function CardPedido({ pedido, update }) {
   return (
     <>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader className="hi_bg-info" toggle={toggle}>
+        <ModalHeader className="hi_bg-info" >
           Pedido Nº "{pedido.id}"
         </ModalHeader>
         <ModalBody>

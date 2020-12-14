@@ -7,16 +7,18 @@ import {
 } from 'reactstrap';
 import CardPedido from './CardPedido';
 import { ActionBox } from '~/components/Styled';
+import ConfigModal from './ConfigModal';
 
 import api from '~/services/api';
 
 export default function Dashboard() {
+  const [filter, setFilter] = useState([]);
   const [cards, setCards] = useState([]);
 
   async function UpdateListing() {
     const { data } = await api.get('getPedidosQueue.php');
 
-    setCards(data);
+    setCards(data.lista);
   }
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function Dashboard() {
                 <CardHeader className="hi_bg-danger">
                   {card.time}
 
-                  <ActionBox>{card.pedidos.length.toString().padStart(2, '0')} Pedidos</ActionBox>
+                  <ActionBox>{card.count.toString().padStart(2, '0')} Pedidos</ActionBox>
                 </CardHeader>
               </Card>
             </Col>
@@ -45,6 +47,7 @@ export default function Dashboard() {
           </Row>
         </div>
       ))}
+      <ConfigModal filter={filter} setFilter={setFilter} />
     </>
   );
 }

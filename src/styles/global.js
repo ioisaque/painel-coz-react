@@ -47,7 +47,7 @@ export const GlobalStyles = createGlobalStyle`
 
   html, body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     -webkit-font-smoothing: antialiased;
     background-color: ${GlobalVars.color.light};
     background: url(${GlobalVars.img.background});
@@ -57,7 +57,7 @@ export const GlobalStyles = createGlobalStyle`
     width: 100%;
     padding: 25px;
     min-height: 100%;
-    background-color: #ffffffcc;
+    background-color: #ffffffdf;
   }
 
   body, label, input, button {
@@ -99,15 +99,15 @@ export const GlobalStyles = createGlobalStyle`
   .text-themecolor	{ color: #5292b1!important; }
   .text-breadcrumb	{	color: #455a64!important;	}
 
-  .hi_bg-muted		{background-color: #636363;}
-  .hi_bg-default		{color: #5292b1 !important;background-color: white !important;border-color: #5292b1 !important;}
-  .hi_bg-themecolor			{color: white !important;background-color: #5292b1 !important;border-color: #5292b1 !important;}
-  .hi_bg-primary		{ color: white!important; background-color: #1976d2!important; }
-  .hi_bg-info			{ color: white!important; background-color: #1976d2!important; }
-  .hi_bg-success		{color: white!important;background-color: #28a745!important;}
-  .hi_bg-warning		{color: black!important;background-color: #ffb22b!important;}
-  .hi_bg-danger		{color: white!important;background-color: #ee3c47!important;}
-  .hi_bg-athenas		{ color: white!important; background-color: #f36700!important; }
+  .hi_bg-muted		  {background-color: #636363;}
+  .hi_bg-default		{color: #5292b1!important;  background-color: white !important;   border-color: #5292b1 !important;}
+  .hi_bg-themecolor	{color: white!important;    background-color: #5292b1!important;  border-color: #5292b1 !important;}
+  .hi_bg-primary		{color: white!important;    background-color: #1976d2!important;}
+  .hi_bg-info			  {color: white!important;    background-color: #1976d2!important;}
+  .hi_bg-success		{color: white!important;    background-color: #28a745!important;}
+  .hi_bg-warning		{color: black!important;    background-color: #ffb22b!important;}
+  .hi_bg-danger		  {color: white!important;    background-color: #ee3c47!important;}
+  .hi_bg-athenas		{color: white!important;    background-color: #f36700!important;}
   /*################## Card Styles ##################*/
   .card {
     cursor: pointer;
@@ -132,6 +132,15 @@ export const GlobalStyles = createGlobalStyle`
 
     display: flex!important;
     justify-content: space-between!important;
+  }
+
+  .toggle-config {
+    right: 1rem;
+    bottom: 1rem;
+    position: fixed;
+    font-weight: 600;
+    border-radius: 100%;
+    background: ${GlobalVars.color.info};
   }
 
   .slimScrollDiv::-webkit-scrollbar,
