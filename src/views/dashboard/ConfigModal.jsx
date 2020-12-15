@@ -16,9 +16,8 @@ export default function ModalAdd({ filter, setFilter }) {
 
   const toggle = () => setModal(!modal);
 
-  async function handleSubmit(data) {
-    setFilter([...filter, data]);
-
+  function handleSubmit(data) {
+    setFilter(data);
     toggle();
   }
 
@@ -28,19 +27,30 @@ export default function ModalAdd({ filter, setFilter }) {
         <i className="mdi mdi-settings"></i>
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader className="hi_bg-info">
-          Filtrar Pedidos
-        </ModalHeader>
+        <ModalHeader className="hi_bg-info">Filtrar Pedidos</ModalHeader>
         <Form onSubmit={handleSubmit}>
           <ModalBody>
             <Row>
-              <FormGroup className="col-12">
-                <Label>Quantidade Mínima</Label>
+              <FormGroup className="col-6">
                 <Input
-                  type="text"
-                  name="mim_qtd"
+                  type="date"
+                  name="day"
                   className="form-control"
                   required
+                />
+              </FormGroup>
+              <FormGroup className="col-6">
+                <Label check>
+                  <Input type="checkbox" name="all_day" defaultChecked={filter.all_day} /> Dia Inteiro?
+                </Label>
+              </FormGroup>
+              <FormGroup className="col-12">
+                <Input
+                  type="number"
+                  name="mim_qtd"
+                  className="form-control"
+                  placeholder="Qtd Mínima"
+                  defaultValue={filter.mim_qtd}
                 />
               </FormGroup>
             </Row>

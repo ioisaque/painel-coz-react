@@ -72,11 +72,16 @@ export const GlobalStyles = createGlobalStyle`
 
   td {
     font-weight: bold;
+    border: none !important;
+    padding: .25rem !important;
+    vertical-align: middle !important;
     color: ${GlobalVars.color.grey};
   }
   td.qtd {
+    width: 110px;
     font-size: 150%;
     font-weight: bold;
+    text-align: right;
     color: ${GlobalVars.color.info};
   }
   td pre {

@@ -17,14 +17,13 @@ import api from '~/services/api';
 
 export default function CardPedido({ pedido, update }) {
   const [modal, setModal] = useState(false);
-  
+
   let hasOBS = false;
 
   // eslint-disable-next-line
-  pedido.items.map(function(item) {
-    if (item.observacoes)
-     hasOBS = true;
-   });
+  pedido.items.map(function (item) {
+    if (item.observacoes) hasOBS = true;
+  });
 
   const toggle = () => setModal(!modal);
 
@@ -38,7 +37,7 @@ export default function CardPedido({ pedido, update }) {
   return (
     <>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader className="hi_bg-info" >
+        <ModalHeader className="hi_bg-info">
           Pedido Nº "{pedido.id}"
         </ModalHeader>
         <ModalBody>
@@ -57,12 +56,12 @@ export default function CardPedido({ pedido, update }) {
         </ModalFooter>
       </Modal>
 
-      <Col xs={hasOBS ? "2" : '1'} onClick={toggle}>
+      <Col xs={hasOBS ? '2' : '1'} onClick={toggle}>
         <Card className="mb-4">
           <CardHeader className="hi_bg-warning">
             {pedido.id}
             <ActionBox>
-              {pedido.delivery ? <i className="mdi mdi-motorbike"></i> : ''}
+              {parseInt(pedido.delivery) === 1 ? <i className="mdi mdi-motorbike"></i> : ''}
             </ActionBox>
           </CardHeader>
           <CardBody className="table-responsive slimScrollDiv p-0">
@@ -77,7 +76,17 @@ export default function CardPedido({ pedido, update }) {
               <tbody>
                 {pedido.items.map((item) => (
                   <tr key={item.id}>
-                    <td className="qtd">{item.qtd}</td>
+                    <td className="qtd">
+                      {item.qtd}
+                      <span
+                        style={{
+                          color: `${item.flag_color}`,
+                          marginLeft: '.2rem',
+                        }}
+                      >
+                        <i className="mdi mdi-message-alert"></i>
+                      </span>
+                    </td>
                     <td>
                       <pre>{item.observacoes ? item.observacoes : '...'}</pre>
                     </td>

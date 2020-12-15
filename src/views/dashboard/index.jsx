@@ -12,22 +12,33 @@ import ConfigModal from './ConfigModal';
 import api from '~/services/api';
 
 export default function Dashboard() {
-  const [filter, setFilter] = useState([]);
   const [cards, setCards] = useState([]);
+  const [filter, setFilter] = useState({
+    day: 'today',
+    all_day: true,
+    mim_qtd: 50,
+  });
 
   async function UpdateListing() {
-    const { data } = await api.get('getPedidosQueue.php');
+    const { data } = await api.post('/getPedidosQueue.php', {
+      day: filter.day,
+      all_day: filter.all_day,
+      mim_qtd: filter.mim_qtd,
+    });
 
     setCards(data.lista);
+    
+    console.log('data => ', data)
   }
 
   useEffect(() => {
+    console.log('filter => ', filter)
     UpdateListing();
   }, []);
 
   return (
     <>
-      {cards.map((card) => (
+      {cards && cards.map((card) => (
         <div key={card.time}>
           <Row className="mb-3">
             <Col size="12">
