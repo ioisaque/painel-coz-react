@@ -14,7 +14,7 @@ import api from '~/services/api';
 export default function Dashboard() {
   const [cards, setCards] = useState([]);
   const [filter, setFilter] = useState({
-    day: 'today',
+    day: "today",
     all_day: true,
     mim_qtd: 50,
   });
@@ -27,13 +27,17 @@ export default function Dashboard() {
     });
 
     setCards(data.lista);
-    
-    console.log('data => ', data)
   }
 
   useEffect(() => {
-    console.log('filter => ', filter)
+    console.log('Filtro atualizado, buscando pedidos...')
     UpdateListing();
+  }, [filter]);
+
+  useEffect(() => {
+    setInterval(() => {
+      UpdateListing()
+    }, 3 * 60 * 1000)
   }, []);
 
   return (
