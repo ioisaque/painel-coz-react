@@ -11,7 +11,7 @@ export default function E404() {
             <h1 class="title">
               <b>404</b>
             </h1>
-            <p class="desc font-white">Opps... page not found!</p>
+            <p class="desc font-white">Opps... página não encontrada</p>
 
             <img
               alt="404 Error"

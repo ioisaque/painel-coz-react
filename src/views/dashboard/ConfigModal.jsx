@@ -28,29 +28,35 @@ export default function ModalAdd({ filter, setFilter }) {
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="hi_bg-info">Filtrar Pedidos</ModalHeader>
-        <Form onSubmit={handleSubmit}>
+        <Form
+          onSubmit={handleSubmit}
+          initialData={filter}
+        >
           <ModalBody>
             <Row>
               <FormGroup className="col-6">
+                <Label>Qtd Mínima</Label>
+                <Input
+                  type="number"
+                  name="mim_qtd"
+                  className="form-control"
+                  defaultValue={filter.mim_qtd}
+                />
+              </FormGroup>
+              <FormGroup className="col-6">
+                <Label>
+                  <Input
+                    type="checkbox"
+                    name="all_day"
+                    defaultChecked={filter.all_day}
+                  />{' '}
+                  Dia Inteiro?
+                </Label>
                 <Input
                   type="date"
                   name="day"
                   className="form-control"
                   required
-                />
-              </FormGroup>
-              <FormGroup className="col-6">
-                <Label check>
-                  <Input type="checkbox" name="all_day" defaultChecked={filter.all_day} /> Dia Inteiro?
-                </Label>
-              </FormGroup>
-              <FormGroup className="col-12">
-                <Input
-                  type="number"
-                  name="mim_qtd"
-                  className="form-control"
-                  placeholder="Qtd Mínima"
-                  defaultValue={filter.mim_qtd}
                 />
               </FormGroup>
             </Row>

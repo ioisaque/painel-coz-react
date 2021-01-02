@@ -38,7 +38,7 @@ export default function CardPedido({ pedido, update }) {
     <>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="hi_bg-info">
-          Pedido Nº "{pedido.id}"
+          Pedido Nº {pedido.id}
         </ModalHeader>
         <ModalBody>
           Deseja atualizar o status do pedido {pedido.id}?

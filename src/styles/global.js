@@ -32,8 +32,6 @@ export const GlobalVars = {
 };
 
 export const GlobalStyles = createGlobalStyle`
-  @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
-
   * {
     margin: 0;
     padding: 0;
@@ -115,7 +113,7 @@ export const GlobalStyles = createGlobalStyle`
   .hi_bg-danger		  {color: white!important;    background-color: #ee3c47!important;}
   .hi_bg-athenas		{color: white!important;    background-color: #f36700!important;}
   /*################## Card Styles ##################*/
-  .card {
+  .card, input[type=date] {
     cursor: pointer;
   }
   .breadcrumb {

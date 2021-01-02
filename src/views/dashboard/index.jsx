@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import {
   Row,
   Col,
@@ -14,7 +15,7 @@ import api from '~/services/api';
 export default function Dashboard() {
   const [cards, setCards] = useState([]);
   const [filter, setFilter] = useState({
-    day: "today",
+    day: format(new Date(), 'yyyy-MM-dd'),
     all_day: true,
     mim_qtd: 50,
   });
@@ -30,14 +31,19 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    console.log('Filtro atualizado, buscando pedidos...')
+    console.clear()
+    console.debug("Filtro Atualizado!", filter)
+
     UpdateListing();
+    // eslint-disable-next-line
   }, [filter]);
 
   useEffect(() => {
     setInterval(() => {
       UpdateListing()
     }, 3 * 60 * 1000)
+    console.debug("Lista Atualizada!")
+    // eslint-disable-next-line
   }, []);
 
   return (
