@@ -28,34 +28,36 @@ export default function ModalAdd({ filter, setFilter }) {
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="hi_bg-info">Filtrar Pedidos</ModalHeader>
-        <Form
-          onSubmit={handleSubmit}
-          initialData={filter}
-        >
-          <ModalBody>
+        <Form onSubmit={handleSubmit} initialData={filter}>
+          <ModalBody style={{padding: '1rem'}}>
             <Row>
-              <FormGroup className="col-6">
+              <FormGroup className="col-6 m-0">
                 <Label>Qtd Mínima</Label>
                 <Input
-                  type="number"
+                  type="text"
                   name="mim_qtd"
-                  className="form-control"
+                  className="form-control hi_text_center"
                   defaultValue={filter.mim_qtd}
+                  data-bts-button-down-class="btn btn-outline-zero"
+                  data-bts-button-up-class="btn btn-outline-zero"
                 />
               </FormGroup>
-              <FormGroup className="col-6">
-                <Label>
-                  <Input
-                    type="checkbox"
-                    name="all_day"
-                    defaultChecked={filter.all_day}
-                  />{' '}
-                  Dia Inteiro?
-                </Label>
+              <FormGroup className="col-6 m-0">
+                <div class="switch">
+                  <Label>
+                    <Input
+                      type="checkbox"
+                      name="all_day"
+                      defaultChecked={filter.all_day}
+                    />
+                    <span class="lever switch-col-light-blue"></span>Dia Inteiro?
+                  </Label>
+                </div>
+
                 <Input
-                  type="date"
+                  type="text"
                   name="day"
-                  className="form-control"
+                  className="form-control hi_bg-default hi_text_center datepicker"
                   required
                 />
               </FormGroup>

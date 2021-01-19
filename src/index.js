@@ -1,10 +1,16 @@
+import 'bootstrap';
+import '~/styles/material-design-iconic-font/css/materialdesignicons.min.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '~/App';
+
+import Dashboard from './views/dashboard';
+import { ToastContainer } from 'react-toastify';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ToastContainer position="top-right" autoClose={5000} />
+    <Dashboard/>
   </React.StrictMode>,
   document.getElementById('root')
 );

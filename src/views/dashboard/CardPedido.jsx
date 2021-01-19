@@ -16,16 +16,16 @@ import { ActionBox } from '~/components/Styled';
 import api from '~/services/api';
 
 export default function CardPedido({ pedido, update }) {
-  const [modal, setModal] = useState(false);
 
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
   let hasOBS = false;
 
   // eslint-disable-next-line
   pedido.items.map(function (item) {
-    if (item.observacoes) hasOBS = true;
+    if (item.observacoes)
+      hasOBS = true;
   });
-
-  const toggle = () => setModal(!modal);
 
   async function saveItem(data) {
     await api.get(`setPedidoStatus.php?id_pedido=${pedido.id}&id_status=3`);
@@ -33,6 +33,14 @@ export default function CardPedido({ pedido, update }) {
     toggle();
     update();
   }
+
+  async function setStatusCoz(id_pedido) {
+    await api.get(`setPedidoStatus.php?id_pedido=${id_pedido}&id_status=2`);
+
+    console.debug(`Status do pedido #${id_pedido} atualizado.`)
+  }
+
+  (parseInt(pedido.status) === 1) && setStatusCoz(pedido.id)
 
   return (
     <>

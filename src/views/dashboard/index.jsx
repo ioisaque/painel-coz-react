@@ -50,7 +50,7 @@ export default function Dashboard() {
     <>
       {cards && cards.map((card) => (
         <div key={card.time}>
-          <Row className="mb-3">
+          <Row>
             <Col size="12">
               <Card>
                 <CardHeader className="hi_bg-danger">
