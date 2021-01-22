@@ -45,12 +45,11 @@ export default function CardPedido({ pedido, update }) {
   return (
     <>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader className="hi_bg-info">
+        <ModalHeader className="hi_bg-warning text-black">
           Pedido Nº {pedido.id}
         </ModalHeader>
-        <ModalBody>
+        <ModalBody className="pt-2">
           Deseja atualizar o status do pedido {pedido.id}?
-          <br />
           <br />
           Esta ação não poderá ser desfeita através deste painel.
         </ModalBody>

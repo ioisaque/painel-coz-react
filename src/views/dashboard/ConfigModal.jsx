@@ -11,6 +11,8 @@ import {
 } from 'reactstrap';
 import { Form, Input } from '@rocketseat/unform';
 
+import history from '~/services/history';
+
 export default function ModalAdd({ filter, setFilter }) {
   const [modal, setModal] = useState(false);
 
@@ -23,11 +25,14 @@ export default function ModalAdd({ filter, setFilter }) {
 
   return (
     <>
+      <Button onClick={() => history.back()} className="toggle-painel">
+        <i class="mdi mdi-close"></i>
+      </Button>
       <Button onClick={toggle} className="toggle-config">
         <i className="mdi mdi-settings"></i>
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader className="hi_bg-info">Filtrar Pedidos</ModalHeader>
+        <ModalHeader className="hi_bg-warning">Filtrar Pedidos</ModalHeader>
         <Form onSubmit={handleSubmit} initialData={filter}>
           <ModalBody style={{padding: '1rem'}}>
             <Row>
@@ -56,7 +61,7 @@ export default function ModalAdd({ filter, setFilter }) {
 
                 <Input
                   type="text"
-                  name="day"
+                  name="dia"
                   className="form-control hi_bg-default hi_text_center datepicker"
                   required
                 />
