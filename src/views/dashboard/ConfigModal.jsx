@@ -26,7 +26,7 @@ export default function ModalAdd({ filter, setFilter }) {
   return (
     <>
       <Button onClick={() => history.back()} className="toggle-painel">
-        <i class="mdi mdi-close"></i>
+        <i className="mdi mdi-close"></i>
       </Button>
       <Button onClick={toggle} className="toggle-config">
         <i className="mdi mdi-settings"></i>
@@ -48,14 +48,14 @@ export default function ModalAdd({ filter, setFilter }) {
                 />
               </FormGroup>
               <FormGroup className="col-6 m-0">
-                <div class="switch">
+                <div className="switch">
                   <Label>
                     <Input
                       type="checkbox"
                       name="all_day"
                       defaultChecked={filter.all_day}
                     />
-                    <span class="lever switch-col-light-blue"></span>Dia Inteiro?
+                    <span className="lever switch-col-light-blue"></span>Dia Inteiro?
                   </Label>
                 </div>
 

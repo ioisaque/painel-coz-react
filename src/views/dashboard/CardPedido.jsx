@@ -28,14 +28,14 @@ export default function CardPedido({ pedido, update }) {
   });
 
   async function saveItem(data) {
-    await api.get(`setPedidoStatus.php?id_pedido=${pedido.id}&id_status=3`);
+    await api.get(`/pedidos?id_pedido=${pedido.id}&id_status=3`);
 
     toggle();
     update();
   }
 
   async function setStatusCoz(id_pedido) {
-    await api.get(`setPedidoStatus.php?id_pedido=${id_pedido}&id_status=2`);
+    await api.get(`/pedidos?id_pedido=${id_pedido}&id_status=2`);
 
     console.debug(`Status do pedido #${id_pedido} atualizado.`)
   }

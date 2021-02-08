@@ -21,13 +21,14 @@ export default function Dashboard() {
   });
 
   async function UpdateListing() {
-    const { data } = await api.post('/getPedidosQueue.php', {
+    const { data } = await api.get('/pedidos', {
       dia: filter.dia,
       all_day: filter.all_day,
       mim_qtd: filter.mim_qtd,
     });
 
-    setLista(data.lista);
+    setLista(data.data.lista);
+    console.debug("Lista Atualizada!", data.data.lista)
   }
 
   useEffect(() => {
@@ -42,7 +43,6 @@ export default function Dashboard() {
     setInterval(() => {
       UpdateListing()
     }, 3 * 60 * 1000)
-    console.debug("Lista Atualizada!")
     // eslint-disable-next-line
   }, []);
 
