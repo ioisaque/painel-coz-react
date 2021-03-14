@@ -1,74 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import {
-  Row,
-  Col,
-  Card,
-  CardHeader
-} from 'reactstrap';
+import { Row, Col, Card, CardHeader } from 'reactstrap';
 import CardPedido from './CardPedido';
 import { ActionBox } from '~/components/Styled';
-import ConfigModal from './ConfigModal';
-
 import api from '~/services/api';
+import { getCookie } from '~/services/auxi';
 
 export default function Dashboard() {
-  const [lista, setLista] = useState([]);
-  const [filter, setFilter] = useState({
-    dia: format(new Date(), 'yyyy-MM-dd'),
-    all_day: true,
-    mim_qtd: 50,
+  const [queue, setQueue] = useState([]);
+  const [cookies, setCookies] = useState({
+    MQTD: getCookie('LM_SALGADOS_MQTD'),
+    ADAY: getCookie('LM_SALGADOS_ADAY'),
+    DATA: getCookie('LM_SALGADOS_DATA'),
+    EVRY: getCookie('LM_SALGADOS_EVRY'),
   });
 
   async function UpdateListing() {
-    const { data } = await api.get('/pedidos', {
-      dia: filter.dia,
-      all_day: filter.all_day,
-      mim_qtd: filter.mim_qtd,
-    });
+    const { data } = await api.get(
+      `/pedidos?mqtd=${cookies.MQTD}&aday=${cookies.ADAY}&data=${cookies.DATA}`
+    );
 
-    setLista(data.data.lista);
-    console.debug("Lista Atualizada!", data.data.lista)
+    // console.clear();
+    console.debug('UpdateListing =>', data);
+    setQueue(data.data.queue);
   }
 
   useEffect(() => {
-    console.clear()
-    console.debug("Filtro Atualizado!", filter)
-
     UpdateListing();
-    // eslint-disable-next-line
-  }, [filter]);
+  }, [cookies]);
 
   useEffect(() => {
-    setInterval(() => {
-      UpdateListing()
-    }, 3 * 60 * 1000)
-    // eslint-disable-next-line
+    setInterval(UpdateListing, cookies.EVRY * 60 * 1000);
   }, []);
 
   return (
     <>
-      {lista && lista.map((item) => item.pedidos && (
-        <>
-          <Row>
-            <Col size="12">
+      {queue &&
+        queue.map((item) => (
+          <Row key={item.time}>
+            <Col xl="12">
               <Card>
                 <CardHeader className="hi_bg-danger">
                   {item.time}
 
-                  <ActionBox>{item.count.toString().padStart(2, '0')} Pedidos</ActionBox>
+                  <ActionBox>{`${item.count} Salgados`}</ActionBox>
                 </CardHeader>
               </Card>
             </Col>
-          </Row>
-          <Row>
-            { item.pedidos.map((pedido) => (
-              <CardPedido key={pedido.id} pedido={pedido} update={UpdateListing}/>
+            {item.pedidos.map((pedido) => (
+              <CardPedido
+                key={pedido.id}
+                pedido={pedido}
+                update={UpdateListing}
+              />
             ))}
           </Row>
-        </>
-      ))}
-      <ConfigModal filter={filter} setFilter={setFilter} />
+        ))}
     </>
   );
 }

@@ -71,7 +71,7 @@ export default function CardPedido({ pedido, update }) {
               {parseInt(pedido.delivery) === 1 ? <i className="mdi mdi-motorbike"></i> : ''}
             </ActionBox>
           </CardHeader>
-          <CardBody className="table-responsive slimScrollDiv p-0">
+          <CardBody className="p-0">
             {/* <Table>
                 <tbody>
                   <tr>
@@ -95,7 +95,7 @@ export default function CardPedido({ pedido, update }) {
                       </span>
                     </td>
                     <td>
-                      <pre>{item.observacoes ? item.observacoes : '...'}</pre>
+                      {item.observacoes ? item.observacoes : '...'}
                     </td>
                   </tr>
                 ))}
