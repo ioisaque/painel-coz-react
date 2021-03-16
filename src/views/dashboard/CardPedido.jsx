@@ -16,15 +16,13 @@ import { ActionBox } from '~/components/Styled';
 import api from '~/services/api';
 
 export default function CardPedido({ pedido, update }) {
-
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   let hasOBS = false;
 
   // eslint-disable-next-line
   pedido.items.map(function (item) {
-    if (item.observacoes)
-      hasOBS = true;
+    if (item.observacoes) hasOBS = true;
   });
 
   async function saveItem(data) {
@@ -37,10 +35,10 @@ export default function CardPedido({ pedido, update }) {
   async function setStatusCoz(id_pedido) {
     await api.get(`/pedidos/?id_pedido=${id_pedido}&id_status=2`);
 
-    console.debug(`Status do pedido #${id_pedido} atualizado.`)
+    console.debug(`Status do pedido #${id_pedido} atualizado.`);
   }
 
-  (parseInt(pedido.status) === 1) && setStatusCoz(pedido.id)
+  parseInt(pedido.status) === 1 && setStatusCoz(pedido.id);
 
   return (
     <>
@@ -68,7 +66,11 @@ export default function CardPedido({ pedido, update }) {
           <CardHeader className="hi_bg-warning">
             {pedido.id}
             <ActionBox>
-              {parseInt(pedido.delivery) === 1 ? <i className="mdi mdi-motorbike"></i> : ''}
+              {parseInt(pedido.delivery) === 1 ? (
+                <i className="mdi mdi-motorbike"></i>
+              ) : (
+                ''
+              )}
             </ActionBox>
           </CardHeader>
           <CardBody className="p-0">
@@ -83,7 +85,7 @@ export default function CardPedido({ pedido, update }) {
               <tbody>
                 {pedido.items.map((item) => (
                   <tr key={item.id}>
-                    <td className="qtd">
+                    <td className={item.flag_color === '#FF0000' ? 'qtd text-danger' : 'qtd'}>
                       {item.qtd}
                       <span
                         style={{
@@ -91,11 +93,14 @@ export default function CardPedido({ pedido, update }) {
                           marginLeft: '.2rem',
                         }}
                       >
-                        <i className="mdi mdi-message-alert"></i>
+                        <i className="mdi mdi-flag-variant"></i>
                       </span>
                     </td>
                     <td>
-                      {item.observacoes ? item.observacoes : '...'}
+                      {parseInt(item.id) !== 4 && item.flag_color === '#FF0000'
+                        ? (<>{item.descricao} <br /></>)
+                        : false}
+                      {item.observacoes ? item.observacoes : false}
                     </td>
                   </tr>
                 ))}
