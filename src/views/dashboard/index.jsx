@@ -7,7 +7,7 @@ import { getCookie } from '~/services/auxi';
 
 export default function Dashboard() {
   const [queue, setQueue] = useState([]);
-  const [cookies, setCookies] = useState({
+  const [cookies] = useState({
     MQTD: getCookie('LM_SALGADOS_MQTD'),
     ADAY: getCookie('LM_SALGADOS_ADAY'),
     DATA: getCookie('LM_SALGADOS_DATA'),
@@ -16,9 +16,8 @@ export default function Dashboard() {
 
   async function UpdateListing() {
     const { data } = await api.get(
-      `/pedidos?mqtd=${cookies.MQTD}&aday=${cookies.ADAY}&data=${cookies.DATA}`
+      `/pedidos/?mqtd=${cookies.MQTD}&aday=${cookies.ADAY}&data=${cookies.DATA}`
     );
-
     // console.clear();
     console.debug('UpdateListing =>', data);
     setQueue(data.data.queue);
@@ -29,7 +28,12 @@ export default function Dashboard() {
   }, [cookies]);
 
   useEffect(() => {
-    setInterval(UpdateListing, cookies.EVRY * 60 * 1000);
+    const MS = cookies.EVRY ? cookies.EVRY : .5;
+    const interval = setInterval(() => {
+      UpdateListing();
+    }, MS * 60 * 1000);
+
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, []);
 
   return (
