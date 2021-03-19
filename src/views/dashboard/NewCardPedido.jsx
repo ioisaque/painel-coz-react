@@ -15,18 +15,20 @@ import { ActionBox } from '~/components/Styled';
 
 import api from '~/services/api';
 
-export default function CardPedido({ pedido, update }) {
+export default function CardPedido({ update, time, pedidos }) {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const [teste, setTeste] = useState(false);
+
   let hasOBS = false;
 
   // eslint-disable-next-line
-  pedido.items.map(function (item) {
-    if (item.observacoes) hasOBS = true;
-  });
+  // teste.items.map(function (item) {
+  //   if (item.observacoes) hasOBS = true;
+  // });
 
   async function saveItem(data) {
-    await api.get(`/pedidos/?id_pedido=${pedido.id}&id_status=3`);
+    await api.get(`/pedidos/?id_pedido=${1850}&id_status=3`);
 
     toggle();
     update();
@@ -38,16 +40,18 @@ export default function CardPedido({ pedido, update }) {
     console.debug(`Status do pedido #${id_pedido} atualizado.`);
   }
 
-  parseInt(pedido.status) === 1 && setStatusCoz(pedido.id);
+  parseInt(teste.status) === 1 && setStatusCoz(1850);
+
+  // pedidos.map((pedido) => console.log(pedido));
 
   return (
     <>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="hi_bg-warning text-black">
-          Pedido Nº {pedido.id}
+          {/* Pedido Nº {pedido.id} */}
         </ModalHeader>
         <ModalBody className="pt-2">
-          Deseja atualizar o status do pedido {pedido.id}?
+          {/* Deseja atualizar o status do pedido {pedido.id}? */}
           <br />
           Esta ação não poderá ser desfeita através deste painel.
         </ModalBody>
@@ -61,29 +65,23 @@ export default function CardPedido({ pedido, update }) {
         </ModalFooter>
       </Modal>
 
-      <Col xs={hasOBS ? '12' : '12'} onClick={toggle}>
-        <Card className="mb-4 hi_bg-warning">
-          {/* <CardHeader className="hi_bg-warning">
-            {pedido.id}
-            <ActionBox>
-              {parseInt(pedido.delivery) === 1 ? (
-                <i className="mdi mdi-motorbike"></i>
-              ) : (
-                ''
-              )}
-            </ActionBox>
-          </CardHeader> */}
-          <CardBody className="p-0 ">
-            {/* <Table>
-                <tbody>
-                  <tr>
-                    <td className="observacoes">{pedido.observacoes}</td>
-                  </tr>
-                </tbody>
-              </Table> */}
-            <Table className="mb-0" striped>
-              <tbody>
-                {pedido.items.map((item) => (
+      <Card className="hi_bg-warning" xl={12}>
+        <CardHeader className="hi_bg-danger text-center" xl={12}>
+          {time}
+          {/* <ActionBox>{`${item.count} Salgados`}</ActionBox> */}
+        </CardHeader>
+        <CardBody className="p-0 ">
+          {/* <Table>
+            <tbody>
+              <tr>
+                <td className="observacoes">{pedido.observacoes}</td>
+              </tr>
+            </tbody>
+          </Table> */}
+          <Table className="mb-0">
+            <tbody>
+              {pedidos.map((pedido) =>
+                pedido.items.map((item) => (
                   <tr key={item.id}>
                     <td
                       className={
@@ -114,12 +112,12 @@ export default function CardPedido({ pedido, update }) {
                       {item.observacoes ? item.observacoes : false}
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-          </CardBody>
-        </Card>
-      </Col>
+                ))
+              )}
+            </tbody>
+          </Table>
+        </CardBody>
+      </Card>
     </>
   );
 }

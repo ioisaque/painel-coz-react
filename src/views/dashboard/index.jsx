@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, CardHeader } from 'reactstrap';
-import CardPedido from './CardPedido';
+import { Row, Col, Card, CardHeader, Container } from 'reactstrap';
+import CardPedido from './NewCardPedido';
 import { ActionBox } from '~/components/Styled';
 import api from '~/services/api';
 import { getCookie } from '~/services/auxi';
@@ -28,7 +28,7 @@ export default function Dashboard() {
   }, [cookies]);
 
   useEffect(() => {
-    const MS = cookies.EVRY ? cookies.EVRY : .5;
+    const MS = cookies.EVRY ? cookies.EVRY : 0.5;
     const interval = setInterval(() => {
       UpdateListing();
     }, MS * 60 * 1000);
@@ -36,29 +36,26 @@ export default function Dashboard() {
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, []);
 
+  // console.log(queue.map((item) => item));
+
   return (
     <>
-      {queue &&
-        queue.map((item) => (
-          <Row key={item.time}>
-            <Col xl="12">
-              <Card>
-                <CardHeader className="hi_bg-danger">
-                  {item.time}
-
-                  <ActionBox>{`${item.count} Salgados`}</ActionBox>
-                </CardHeader>
-              </Card>
-            </Col>
-            {item.pedidos.map((pedido) => (
+      <Row xl={12}>
+        {queue &&
+          queue.map((item) => (
+            <Col
+              className="p-0 mt-1 ml-1"
+              xl={{ size: 1, offset: 0 }}
+              key={item.time}
+            >
               <CardPedido
-                key={pedido.id}
-                pedido={pedido}
                 update={UpdateListing}
+                time={item.time}
+                pedidos={item.pedidos}
               />
-            ))}
-          </Row>
-        ))}
+            </Col>
+          ))}
+      </Row>
     </>
   );
 }
