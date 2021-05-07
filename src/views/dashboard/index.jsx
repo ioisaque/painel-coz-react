@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, CardHeader } from 'reactstrap';
-import CardPedido from './CardPedido';
-import { ActionBox } from '~/components/Styled';
-import api from '~/services/api';
+import { Row, Col, Table, Card, CardHeader } from 'reactstrap';
 import { getCookie } from '~/services/auxi';
+import CardPedido from './CardPedido';
+import api from '~/services/api';
 
 export default function Dashboard() {
   const [queue, setQueue] = useState([]);
@@ -16,7 +15,7 @@ export default function Dashboard() {
 
   async function UpdateListing() {
     const { data } = await api.get(
-      `/pedidos/?mqtd=${cookies.MQTD}&aday=${cookies.ADAY}&data=${cookies.DATA}`
+      `/pedidos/?queue=1&mqtd=${cookies.MQTD}&aday=${cookies.ADAY}&data=${cookies.DATA}`
     );
     // console.clear();
     console.debug('UpdateListing =>', data);
@@ -28,7 +27,7 @@ export default function Dashboard() {
   }, [cookies]);
 
   useEffect(() => {
-    const MS = cookies.EVRY ? cookies.EVRY : .5;
+    const MS = cookies.EVRY ? cookies.EVRY : 0.5;
     const interval = setInterval(() => {
       UpdateListing();
     }, MS * 60 * 1000);
@@ -36,29 +35,63 @@ export default function Dashboard() {
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, []);
 
-  return (
-    <>
-      {queue &&
-        queue.map((item) => (
-          <Row key={item.time}>
-            <Col xl="12">
-              <Card>
-                <CardHeader className="hi_bg-danger">
-                  {item.time}
+  let qtd50 = 0;
+  let qtd100 = 0;
+  let qtd200 = 0;
 
-                  <ActionBox>{`${item.count} Salgados`}</ActionBox>
-                </CardHeader>
-              </Card>
-            </Col>
-            {item.pedidos.map((pedido) => (
-              <CardPedido
-                key={pedido.id}
-                pedido={pedido}
-                update={UpdateListing}
-              />
-            ))}
-          </Row>
-        ))}
-    </>
+  return (
+    <Row>
+      {queue.map((item) => (
+        <Col xl="1">
+          <Card>
+            <CardHeader className="text-center hi_bg-danger">
+              {item.time}
+            </CardHeader>
+
+            <Table className="text-center hi_bg-muted">
+              <tbody>
+                {item.pedidos.map((pedido) => {
+                  const grouped = groupBy(pedido.items, (item) => item.qtd);
+
+                  qtd50 += grouped.get(50)?.length ? grouped.get(50).length : 0;
+                  qtd100 += grouped.get(100)?.length
+                    ? grouped.get(100).length
+                    : 0;
+                  qtd200 += grouped.get(200)?.length
+                    ? grouped.get(200).length
+                    : 0;
+                })}
+                <tr>
+                  <td className="text-info">50</td>
+                  <td className="text-black">{qtd50}</td>
+                </tr>
+                <tr>
+                  <td className="text-info">100</td>
+                  <td className="text-black">{qtd100}</td>
+                </tr>
+                <tr>
+                  <td className="text-info">200</td>
+                  <td className="text-black">{qtd200}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Card>
+        </Col>
+      ))}
+    </Row>
   );
+}
+
+function groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach((item) => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
 }
